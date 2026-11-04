@@ -6,13 +6,11 @@ This repository provides a self-contained 30-minute noise-band strategy and an *
 
 ## Historical simulation at a glance
 
-![Historical simulated starting and ending equity, win rate, and closed-trade maximum drawdown](figures/historical-summary.png)
+![Historical simulated equity, closed-trade drawdown, and strategy workflow](figures/historical-strategy-overview.png)
 
-Equity starts at 100; only the summarized start and end are shown, not a trade-by-trade equity curve. These are 53 historical simulated trades, not live performance or independent out-of-sample validation. Funding coverage is incomplete and drawdown excludes intratrade extremes. See the historical research summary below.
+This chart shows the 53 historical simulated trades from August 17 through October 29, 2026. Equity starts at 100; each point represents equity after a completed trade, and the lower panel shows the corresponding closed-trade drawdown. The side panel summarizes band construction, entry, sizing and exits. Original market bars and individual trade records are not included, so cloning this repository cannot independently reproduce the historical curve.
 
-The following chart uses the repository's **synthetic demo data**, a different dataset from the historical summary above. Each numbered point is a completed simulated trade; the log shows its fictional symbol, direction, and equity change. The line connects closed-trade equity and does not show intratrade prices or drawdowns.
-
-![Trade-by-trade simulated decisions and equity for the fictional demo](figures/synthetic-trade-walkthrough.png)
+This is not live performance or independent out-of-sample validation; funding coverage is incomplete and drawdown excludes intratrade extremes. The repository's built-in simulator data are fictional and differ from this historical record. See the historical research summary below.
 
 ## Quick start
 
