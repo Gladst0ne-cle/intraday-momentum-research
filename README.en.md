@@ -10,7 +10,9 @@ This repository provides a self-contained 30-minute noise-band strategy and an *
 
 Equity starts at 100; only the summarized start and end are shown, not a trade-by-trade equity curve. These are 53 historical simulated trades, not live performance or independent out-of-sample validation. Funding coverage is incomplete and drawdown excludes intratrade extremes. See the historical research summary below.
 
-To regenerate the image, install `matplotlib` and run `python scripts/plot_historical_summary.py`; simulation itself does not require this dependency.
+The following chart uses the repository's **synthetic demo data**, a different dataset from the historical summary above. Each numbered point is a completed simulated trade; the log shows its fictional symbol, direction, and equity change. The line connects closed-trade equity and does not show intratrade prices or drawdowns.
+
+![Trade-by-trade simulated decisions and equity for the fictional demo](figures/synthetic-trade-walkthrough.png)
 
 ## Quick start
 
