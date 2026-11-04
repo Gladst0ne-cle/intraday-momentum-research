@@ -33,6 +33,21 @@ python src/simulate.py --demo --save-demo-bars output/example-bars.csv --output 
 python src/simulate.py --bars output/example-bars.csv --carry-zero --output output/from-csv
 ```
 
+## 补充研究工具
+
+先运行上面的 `--demo`，再对同一次模拟的逐笔交易进行分析：
+
+```bash
+python src/research_analysis.py --trades output/simulation/trades.csv --summary output/simulation/summary.json
+python src/rolling_evaluation.py --demo
+```
+
+第一条命令生成 `output/research-analysis.json`，包含持仓时间、盈亏分布、额外 **0、5、20 基点**成本情景，以及事后去掉最大三笔盈利的敏感性分析。额外成本是在原模拟的双边手续费之外增加，按名义敞口计算；事后去掉赢家不能作为实际交易规则，简单收益之和的占比也不是复利收益贡献占比。
+
+第二条命令生成 `output/rolling-evaluation.json`。它以完整交易日按时间顺序分段，每段开始前保留至少 15 个历史交易日；默认每段 5 个评估交易日，最后不足 5 天的段会标记。每段权益从 1 开始，段内回撤仅在交易结束后计算。
+
+分段运行的是**同一套固定规则**，不会训练模型或自动挑选参数。如果这些数据或参数已被研究过，分段结果并不构成新的独立样本外验证。两个工具都支持 `--output` 指定输出路径，已有输出不会被覆盖，除非明确指定 `--overwrite`。使用自己的行情做分段评估时，将 `--demo` 换为前文的 `--bars` 和相应费用选项即可。
+
 ## 使用自己的行情
 
 准备 UTF-8 CSV，列名必须为：

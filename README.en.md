@@ -33,6 +33,21 @@ python src/simulate.py --demo --save-demo-bars output/example-bars.csv --output 
 python src/simulate.py --bars output/example-bars.csv --carry-zero --output output/from-csv
 ```
 
+## Additional research tools
+
+First run the `--demo` example above, then analyze the trades from that same run:
+
+```bash
+python src/research_analysis.py --trades output/simulation/trades.csv --summary output/simulation/summary.json
+python src/rolling_evaluation.py --demo
+```
+
+The first command writes `output/research-analysis.json` with holding times, payoff statistics, additional cost scenarios of **0, 5, and 20 basis points**, and an after-the-fact sensitivity analysis that removes up to the three largest winners. Extra costs are added to the simulation's original round-trip fee and applied to notional exposure. Removing winners after the fact is not an executable trading rule, and a share of summed simple returns is not a share of compounded return.
+
+The second command writes `output/rolling-evaluation.json`. It evaluates complete trading days in chronological segments, keeping at least 15 prior sessions before each segment. Each segment defaults to five evaluation days; a shorter final segment is marked. Equity resets to one for each segment, and segment drawdown is measured only after completed trades.
+
+The segments use the **same fixed rules**; no model is retrained and no parameter is selected. If the data or parameters have already been studied, the segments do not constitute new independent out-of-sample validation. Both commands support `--output`; existing results are protected unless `--overwrite` is supplied. To evaluate your own bars in segments, replace `--demo` with the `--bars` and carry options described below.
+
 ## Use your own prices
 
 Prepare a UTF-8 CSV with these columns:
