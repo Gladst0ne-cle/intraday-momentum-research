@@ -1,0 +1,23 @@
+{
+  "classification": "retrospective simulated research, not live performance",
+  "sample_start": "2026-08-17",
+  "sample_end": "2026-10-29",
+  "trades": 53,
+  "compounded_equity": 1.4054,
+  "return_percent": 40.54,
+  "win_rate_percent": 49.06,
+  "max_drawdown_after_completed_trades_percent": 15.20,
+  "mean_exposure_multiple": 1.514,
+  "sizing": "double the original recorded exposure, maximum 4x",
+  "fill_proxy": "next 30-minute opening price",
+  "round_trip_fee_basis_points": 10,
+  "additional_slippage_basis_points": 0,
+  "funding_coverage": "incomplete; results are not fully cost reconciled",
+  "limitations": [
+    "Derivatives linked to U.S. equities, not an ETF backtest",
+    "No actual trading fills",
+    "Research segment was repeatedly examined and is not independent validation",
+    "Maximum drawdown is measured after completed trades and excludes intratrade extremes",
+    "Underlying data and trade records are not included; the summary cannot be independently reproduced from this repository alone"
+  ]
+}
