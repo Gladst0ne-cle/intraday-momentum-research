@@ -45,6 +45,8 @@ python src/simulate.py --bars output/example-bars.csv --carry-zero --output outp
 
 ## Additional research tools
 
+Data quality, sizing and stop scenarios, signal filtering, and prediction and rolling-interval tools are organized in [`research/`](research/README.md), with fictional-data commands and assumptions.
+
 First run the `--demo` example above, then analyze the trades from that same run:
 
 ```bash

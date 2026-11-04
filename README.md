@@ -45,6 +45,8 @@ python src/simulate.py --bars output/example-bars.csv --carry-zero --output outp
 
 ## 补充研究工具
 
+仓库按用途将数据质量、仓位与止损情景、信号过滤、预测与滚动区间工具整理在 [`research/`](research/README.md)。包含完整的虚构数据运行命令与假设说明。
+
 先运行上面的 `--demo`，再对同一次模拟的逐笔交易进行分析：
 
 ```bash
