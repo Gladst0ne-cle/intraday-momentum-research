@@ -4,6 +4,14 @@
 
 This repository provides a self-contained 30-minute noise-band strategy and an **offline simulator**. After cloning, you can run an example with synthetic data or provide your own historical bars. The program does not connect to an account or submit orders. Example figures are not actual trading results.
 
+## Historical simulation at a glance
+
+![Historical simulated starting and ending equity, win rate, and closed-trade maximum drawdown](figures/historical-summary.png)
+
+Equity starts at 100; only the summarized start and end are shown, not a trade-by-trade equity curve. These are 53 historical simulated trades, not live performance or independent out-of-sample validation. Funding coverage is incomplete and drawdown excludes intratrade extremes. See the historical research summary below.
+
+To regenerate the image, install `matplotlib` and run `python scripts/plot_historical_summary.py`; simulation itself does not require this dependency.
+
 ## Quick start
 
 Python 3.10 or newer is required. No third-party Python packages are normally needed. If your system lacks the New York time-zone database, as can happen on Windows, first run `python -m pip install tzdata`.
