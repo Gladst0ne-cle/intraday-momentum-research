@@ -6,3 +6,13 @@ __pycache__/
 data/
 artifacts/
 output/
+# Market inputs, local ledgers and credentials are not publication assets.
+*.csv
+*.zip
+*.log
+*.sqlite*
+*.db
+*.pem
+*.key
+*credentials*
+*api*.txt

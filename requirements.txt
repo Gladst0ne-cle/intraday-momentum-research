@@ -1,0 +1,2 @@
+# Simulation and tests otherwise use the Python standard library only.
+tzdata; platform_system == "Windows"

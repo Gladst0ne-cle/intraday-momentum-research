@@ -2,99 +2,81 @@
 
 [中文](README.md) | [English](README.en.md)
 
-本仓库提供一个独立的 30 分钟噪声带策略和**离线模拟程序**。克隆后可以直接运行虚构数据示例，也可以使用自己的历史行情。程序不连接账户、不发送订单；示例中的数字不是实际交易结果。
+**当前版本：v2.0.0 · 波动分母下限。初始版本：v1.0.0。**
 
-## 历史模拟结果示意
+可直接运行的离线策略、双版本对照和研究工具。保留噪声带突破、每日首个信号及原退出方式，在同一时点的候选排序中加入波动分母下限。所有程序均不连接账户、不下单。
 
-![历史模拟权益、回撤及策略步骤](figures/historical-strategy-overview.png)
+## 更新后的全局策略图 · v2.0.0
 
-图中展示 2026 年 8 月 17 日至 10 月 29 日历史研究段的 53 笔模拟交易：权益以 100 为起点，每个点代表一笔交易结束后的权益；下方是对应的交易完成后回撤。右侧概括噪声带、开仓、仓位和退出规则。原始行情和逐笔交易数据不随仓库提供，因此克隆仓库不能直接复现这条历史曲线。
+![v2.0.0 更新版：历史权益、同口径初始规则对照、回撤及策略步骤](figures/strategy-overview-v2.0.0.png)
 
-这不是实盘收益，也不是独立样本外验证；资金费覆盖不完整，回撤不包含持仓期间极值。仓库自带模拟数据仍然是虚构的，与图中的历史记录不同。详见下方历史研究汇总。
+沿用初始版的版式、配色和比例：左侧为全样本权益与已平仓回撤，右侧为四步策略。绿色是更新版，灰色是**同样成交和费用口径**下的初始信号规则；每个绿色点表示一笔历史模拟交易结束。
 
-## 快速开始
+2026-03-18 至 2026-10-29，共 157 个信号日，同口径回放：
 
-需要 Python 3.10 或更高版本。正常情况下不需要安装第三方 Python 包；如果系统缺少纽约时区数据库（部分 Windows 环境会出现这种情况），先运行 `python -m pip install tzdata`。
+- 初始规则对照：复利 **+47.70%**，已平仓最大回撤 **13.57%**，分钟采样平仓估值回撤 **16.16%**。
+- 分母下限更新：复利 **+67.49%**，已平仓最大回撤 **15.55%**，分钟采样平仓估值回撤 **17.17%**；盈利 **63/157** 笔，平均名义敞口约 **1.32 倍**。
+
+这是反复研究过的历史模拟，不是实盘收益或独立验证。更新版并没有同时降低全样本回撤。分钟开盘价仍是成交/结算代理，不包含真实订单簿成交、分钟内极值或强平。原始行情及逐笔历史记录不公开，克隆仓库不能独立复现这条历史曲线。详见 [历史汇总](evidence/historical-v2.0.0.json)。
+
+## 一条命令运行双版本
+
+Python 3.10+。如缺少纽约时区数据，先安装 `requirements.txt`。
 
 ```bash
 git clone https://github.com/Gladst0ne-cle/intraday-momentum-research.git
 cd intraday-momentum-research
-python src/simulate.py --demo
+python -m pip install -r requirements.txt
+python scripts/run_replay.py --demo --compare
 ```
 
-`--demo` 在本地生成虚构行情，假定持仓费用为零，默认以 10,000 模拟资金开始、双边手续费共 10 个基点。运行后生成：
-
-- `output/simulation/trades.csv`：逐笔方向、进出场时间和价格、杠杆、费用后收益及每笔前后权益。
-- `output/simulation/summary.json`：交易次数、胜率、复利权益、交易结束后最大回撤及假设说明。
-
-为防止覆盖已有结果，重复运行时请用 `--output output/另一个目录`，或明确加入 `--overwrite`。也可以使用 `--initial-equity 300`、`--fee-bps 15` 调整初始资金和**双边合计**手续费假设。
+演示行情完全虚构，展示完整运行链路，**不代表图中的历史数据或盈利证据**。两种规则可能在某些输入上选择完全相同的交易。结果保存在 `output/versioned/comparison.json` 和两个版本子目录中，包含 `summary.json`、`trades.csv`、`equity.csv`、`minute_equity.csv`、`decisions.csv`。重复运行需更换输出目录或明确加入 `--overwrite`。
 
 ```bash
-python src/simulate.py --demo --initial-equity 300 --fee-bps 15 --output output/demo-300
+# 单独运行更新版
+python scripts/run_replay.py --demo --config configs/v2.0.0.json --output output/v2
+# 成本压力：在基础代理成本之外，额外加双边合计 20 bp
+python scripts/run_replay.py --demo --compare --extra-cost-bps 20 --output output/stress20
+# 导出虚构行情与规格，再从 CSV 运行
+python scripts/run_replay.py --demo --compare --export-example output/example --output output/example-run
+python scripts/run_replay.py --bars output/example/bars30.csv --minutes output/example/minutes.csv --specs output/example/specs.csv --carry-zero --compare --output output/from-files
+# 全部测试
 python -m unittest discover -s tests
 ```
 
-如果想查看完整的行情 CSV 格式，可运行以下命令导出一份**虚构**数据：
+基础成本：每边 5 bp 手续费 + 双边合计 5 bp 执行成本代理，按进出场各自名义金额计算；入场和退出决策后均等待一分钟。使用自己的数据时必须明确零持仓费假设，或提供结算事件与已核实覆盖范围。手续费、代理滑点和持仓费是不同项目。
 
-```bash
-python src/simulate.py --demo --save-demo-bars output/example-bars.csv --output output/demo-export
-python src/simulate.py --bars output/example-bars.csv --carry-zero --output output/from-csv
+## 更新改变了什么
+
+```text
+v1.0.0：选取原始突破幅度最大的候选
+v2.0.0：选取 breach / max(自身 sigma, 当前候选 sigma 中位数) 最大的候选
 ```
 
-## 补充研究工具
+中位数仅使用当前首个有效信号时点的候选，不读取未来盈亏。更新后仓位同时受原始赢家的名义敞口预算和波动风险预算约束，参考敞口上限仍为 4 倍；预留入场费用，数量向下取整。原噪声带、半小时 band/VWAP 退出和每日最多一笔不变。新回放引擎补齐分钟价格、费用分解、结算时持仓费与分钟风险采样。
 
-仓库按用途将数据质量、仓位与止损情景、信号过滤、预测与滚动区间工具整理在 [`research/`](research/README.md)。包含完整的虚构数据运行命令与假设说明。
+详见 [策略公式与版本差异](docs/STRATEGY_VERSIONS.md)、[详细运行手册](docs/RUNNING.zh-CN.md)、[版本更新记录](CHANGELOG.md)。新回放中使用 `configs/v1.0.0.json` 是**新执行口径下的原信号对照**，不能与旧图直接混用。
 
-先运行上面的 `--demo`，再对同一次模拟的逐笔交易进行分析：
+## 初始版本保留 · v1.0.0
 
-```bash
-python src/research_analysis.py --trades output/simulation/trades.csv --summary output/simulation/summary.json
-python src/rolling_evaluation.py --demo
-```
+![v1.0.0 初始版历史研究图：旧成本口径](figures/historical-strategy-overview.png)
 
-第一条命令生成 `output/research-analysis.json`，包含持仓时间、盈亏分布、额外 **0、5、20 基点**成本情景，以及事后去掉最大三笔盈利的敏感性分析。额外成本是在原模拟的双边手续费之外增加，按名义敞口计算；事后去掉赢家不能作为实际交易规则，简单收益之和的占比也不是复利收益贡献占比。
+旧图是 2026-08-17 至 2026-10-29 的 53 笔历史模拟，复利 +40.54%、已平仓最大回撤 15.20%，采用下一根半小时开盘价、双边 10 bp 手续费、无额外滑点且资金费覆盖不完整。它与上方 157 日同口径对照不同，不能直接相减判断更新收益。
 
-第二条命令生成 `output/rolling-evaluation.json`。它以完整交易日按时间顺序分段，每段开始前保留至少 15 个历史交易日；默认每段 5 个评估交易日，最后不足 5 天的段会标记。每段权益从 1 开始，段内回撤仅在交易结束后计算。
+初始代码和研究工具保留，旧入口 `python src/simulate.py --demo` 仍可用。[初始版完整说明](docs/LEGACY.zh-CN.md)与[旧汇总](historical_summary.json)可查。Git 标签 `v1.0.0` 保存更新前的公开仓库，`v2.0.0` 标记本次更新。
 
-分段运行的是**同一套固定规则**，不会训练模型或自动挑选参数。如果这些数据或参数已被研究过，分段结果并不构成新的独立样本外验证。两个工具都支持 `--output` 指定输出路径，已有输出不会被覆盖，除非明确指定 `--overwrite`。使用自己的行情做分段评估时，将 `--demo` 换为前文的 `--bars` 和相应费用选项即可。
+## 文件分类
 
-## 使用自己的行情
+- `scripts/`：推荐运行入口；`configs/`：版本配置。
+- `src/versioned_replay.py`：排序、因果退出规划、仓位预算、分钟现金账本。
+- `src/replay_cli.py`：CSV 校验、来源哈希、对照运行和导出。
+- `src/intraday_momentum.py`、`backtest.py`、`simulate.py`：初始规则及旧回放。
+- `research/`：数据质量、信号过滤、风险情景、简单预测与滚动验证等独立研究工具，见[研究手册](research/README.md)。
+- `tests/`：规则、预算、结算、路径缺失和端到端回归；`docs/`：中英文手册。
+- `evidence/`：历史汇总；`figures/`：成图；`output/`：本地输出，Git 忽略。
 
-准备 UTF-8 CSV，列名必须为：
+本次只公开通用研究代码、汇总与成图；不含账户、密钥、交易接口、服务器配置、原始行情或逐笔历史数据。制图脚本不上传。
 
-```csv
-symbol,timestamp_ms,open,high,low,close,volume
-AAA,1767623400000,100,101,99,100.5,1200
-```
+## 研究背景
 
-`timestamp_ms` 是 **UTC Unix 毫秒时间戳**，代表该根 K 线的开始时间。每个标的、每个提供的交易日都必须有完整的纽约时间 09:30、10:00、……、15:30 共 13 根半小时 K 线，以及 **16:00 的一行**：程序只使用该行开盘价作为收盘退出代理。标的之间必须覆盖同一组日期；至少提供此前 15 个完整交易日，才能开始模拟下一天。程序会检查日期内时间格、重复记录及 OHLCV，但**不能识别所有未提供的休市日或提前收市日**；请自行使用准确的市场日历筛选。时间转换使用纽约时区，包含夏令时。
-
-如果明确选择把持仓费用暂时假定为零：
-
-```bash
-python src/simulate.py --bars path/to/bars.csv --carry-zero --output output/my-run
-```
-
-也可提供费用事件 CSV，列为 `symbol,timestamp_ms,rate`。`rate` 为小数形式：正值表示多头支付、空头收取；只计入开仓之后至平仓时刻的事件。必须同时以 Unix 毫秒声明文件覆盖起止；程序会检查每笔持仓是否位于声明范围内，但**不会独立证明事件完整**。
-
-```bash
-python src/simulate.py --bars path/to/bars.csv --carry-file path/to/carry.csv \
-  --carry-coverage-start 1767225600000 --carry-coverage-end 1798761600000 \
-  --output output/my-run
-```
-
-可选 `--start 2026-03-01 --end 2026-06-30` 限定评估日期；CSV 仍须包含起始日前至少 15 个完整交易日作为历史。程序在每个日期计算信号前只使用此前日期的历史和当日已完成 K 线，不会用未来日期训练。但用户仍须自行验证行情在相应决策时刻确实可用。
-
-## 策略与模拟假设
-
-策略用前 14 个交易日同一时段相对开盘的平均绝对波动构造噪声带；当半小时收盘价突破上轨或下轨时产生候选。同一日最多选择一笔，优先最早时段，多个候选则按突破幅度排序。仓位依据前 14 个收盘到收盘收益的样本波动率计算，波动目标为 4%，名义敞口上限为权益的 4 倍。之后每个半小时检查噪声带和当日 VWAP 退出条件，剩余持仓在收盘退出。
-
-模拟使用**下一根半小时开盘价**作为成交代理，按当时权益复利。实际点差、冲击、排队、延迟、部分成交、保证金、强平和盘中风险均未模拟；最大回撤只在交易完成后计算。模拟期间若账户收益达到或低于 −100%，程序会报错，而不是假装完成强平模拟。
-
-## 历史研究汇总
-
-一段截至 2026-10-29、已经被多次研究的历史测试包含 53 笔，模拟复利收益 **40.54%**、胜率 **49.06%**、交易完成后最大回撤 **15.20%**。这组数字使用与美股相关的衍生品数据、下一根半小时开盘代理、双边 10 基点手续费、没有额外滑点；历史持仓费用覆盖并不完整。它不是实盘收益，也不是独立样本外验证；少数大盈利对结果影响较大。
-
-仓库不包含该测试的原始行情或逐笔数据，**因此克隆后不能直接重现 40.54%**。内置数据完全虚构，只用于检查流程。历史汇总保存在 [historical_summary.json](historical_summary.json)。
-
-研究思路参考 [Beat the Market: An Effective Intraday Momentum Strategy for the S&P 500 ETF](https://concretumgroup.com/wp-content/uploads/2026/02/Beat-the-Market.pdf)。本实现与论文在研究标的、成本和组合选择方面不同，论文不能证明本仓库的历史结果有效。
+噪声带与日内动量思路参考 *Beat the Market: An Effective Intraday Momentum Strategy for the S&P 500 ETF (SPY)*；本仓库是独立改写与扩展，不是论文复现，研究标的与执行环境也不同。参考文献不是对本版本收益的背书。详情与原始研究工具见[初始说明](docs/LEGACY.zh-CN.md)。
