@@ -1,6 +1,6 @@
 # Changelog / 版本记录
 
-## v2.0.0 — 2026-11-06
+## v1.1.0 — 2026-11-07 (canonical numbering; originally published as v2.0.0 on November 6)
 
 - 保留 30 分钟噪声带突破、首个信号时点、每日最多一笔及原 band/VWAP 退出。
 - 同时出现多个候选时，用 `breach / max(sigma, median(candidate_sigma))` 排序，降低极小波动分母对排序的影响。中位数只使用该时点有效候选。

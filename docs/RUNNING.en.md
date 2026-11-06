@@ -22,7 +22,7 @@ Existing outputs are protected: choose another `--output`, or explicitly use
 ## Versions, capital and costs
 
 ```bash
-python scripts/run_replay.py --demo --config configs/v2.0.0.json --output output/v2
+python scripts/run_replay.py --demo --config configs/v1.1.0.json --output output/v1.1
 python scripts/run_replay.py --demo --config configs/v1.0.0.json --output output/v1-control
 python scripts/run_replay.py --demo --compare --initial-equity 300 --extra-cost-bps 20 --output output/stress20
 ```

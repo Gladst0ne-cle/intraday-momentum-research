@@ -128,7 +128,7 @@ class VersionedTests(unittest.TestCase):
                                    '--minutes', str(example/'minutes.csv'), '--specs', str(example/'specs.csv'),
                                    '--carry-zero', '--compare', '--output', str(root/'reload')], capture_output=True, text=True)
             self.assertEqual(real.returncode, 0, real.stderr)
-            for version in ('v1.0.0', 'v2.0.0'):
+            for version in ('v1.0.0', 'v1.1.0'):
                 a = json.loads((output/version/'summary.json').read_text())
                 b = json.loads((root/'reload'/version/'summary.json').read_text())
                 self.assertAlmostEqual(a['final_equity'], b['final_equity'])

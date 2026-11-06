@@ -1,0 +1,8 @@
+{
+  "version": "v1.1.0",
+  "initial_equity": 10000.0,
+  "fee_bps_per_side": 5.0,
+  "execution_proxy_bps_round_trip": 5.0,
+  "delay_minutes": 1,
+  "leverage_step": 0.01
+}

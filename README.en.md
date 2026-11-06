@@ -2,16 +2,16 @@
 
 [中文](README.md) | [English](README.en.md)
 
-**Current release: v2.0.0 · sigma floor. Initial release: v1.0.0.**
+**Current release: v1.1.0 · sigma floor. Initial release: v1.0.0.**
 
 Runnable offline strategies, aligned version comparisons and research tools.
 The update retains noise-band breakouts, the first signal slot and original
 exits, while flooring the denominator used to rank simultaneous candidates.
 No account connection or order submission is included.
 
-## Updated strategy overview · v2.0.0
+## Updated strategy overview · v1.1.0
 
-![v2.0.0: historical equity, aligned original-rule control, drawdown and strategy steps](figures/strategy-overview-v2.0.0.png)
+![v1.1.0: historical equity, aligned original-rule control, drawdown and strategy steps](figures/strategy-overview-v1.1.0.png)
 
 The initial figure's layout, palette and proportions are retained. Equity and
 closed-trade drawdown appear on the left; the four strategy steps are on the
@@ -31,7 +31,7 @@ independent validation. Higher return also came with higher full-sample
 drawdown. Minute opens are execution/settlement proxies, without actual order
 book fills, intraminute extremes or liquidation. Original market data and
 individual historical trade records are not distributed, so cloning alone
-cannot independently reproduce this curve. See [aggregate evidence](evidence/historical-v2.0.0.json).
+cannot independently reproduce this curve. See [aggregate evidence](evidence/historical-v1.1.0.json).
 
 ## Run both versions
 
@@ -53,7 +53,7 @@ another output directory or explicit `--overwrite`.
 
 ```bash
 # Updated version only
-python scripts/run_replay.py --demo --config configs/v2.0.0.json --output output/v2
+python scripts/run_replay.py --demo --config configs/v1.1.0.json --output output/v1.1
 # Add another 20 bp round-trip execution cost to the base proxy
 python scripts/run_replay.py --demo --compare --extra-cost-bps 20 --output output/stress20
 # Export fictional inputs and run the complete CSV path
@@ -73,7 +73,7 @@ execution proxies and carry are separate cash components.
 
 ```text
 v1.0.0: select the largest raw breakout magnitude
-v2.0.0: maximize breach / max(own sigma, median current candidate sigma)
+v1.1.0: maximize breach / max(own sigma, median current candidate sigma)
 ```
 
 The median uses only the first eligible slot's candidates, not future outcomes.
@@ -100,7 +100,7 @@ It is not the aligned 157-day control above; do not directly subtract returns.
 Original code and research tools remain usable with
 `python src/simulate.py --demo`. See the [initial guide](docs/LEGACY.en.md)
 and [legacy summary](historical_summary.json). Git tag `v1.0.0` preserves the
-pre-update public repository; `v2.0.0` marks this release.
+pre-update public repository; `v1.1.0` marks this release.
 
 ## Repository organization
 
@@ -127,3 +127,5 @@ Intraday Momentum Strategy for the S&P 500 ETF (SPY)*. This is an independent
 adaptation and extension, not a paper replication; the instruments and execution
 environment differ. The reference does not validate this release's returns.
 See the [initial guide](docs/LEGACY.en.md) for research background.
+
+Version numbering now follows the 1.x feature line; the previous v2.0.0 tag remains a historical alias. See [version numbering](docs/VERSIONING.md).

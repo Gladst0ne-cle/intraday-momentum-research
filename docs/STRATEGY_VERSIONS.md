@@ -37,7 +37,7 @@ The v1 configuration in the **new** replay program keeps this original signal
 rule but uses the **new shared minute execution protocol** for a fair control.
 The new v1 run does not reproduce the legacy chart's execution assumptions.
 
-## v2.0.0 — sigma-floor signal rule / 分母下限更新
+## v1.1.0 — sigma-floor signal rule / 分母下限更新
 
 ```text
 floor = median(sigma of all valid candidates in the first signal slot)
@@ -85,7 +85,7 @@ change rounding and can slightly change returns. The bundled demo defaults to
 
 ## Evidence and limits / 证据边界
 
-See [aggregate evidence](../evidence/historical-v2.0.0.json). The aligned full
+See [aggregate evidence](../evidence/historical-v1.1.0.json). The aligned full
 sample contains 157 signal days, 2026-03-18 to 2026-10-29. Original-rule return
 is approximately +47.70%; sigma-floor return +67.49%. Their closed drawdowns
 are 13.57% and 15.55%; minute-sampled drawdowns are 16.16% and 17.17%.

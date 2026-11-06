@@ -165,7 +165,7 @@ def main(argv=None):
                 zero = False
             else:
                 raise ValueError('select --carry-zero or provide carry file AND start/end coverage')
-        versions = ['v1.0.0', 'v2.0.0'] if args.compare else [config['version']]
+        versions = ['v1.0.0', 'v1.1.0'] if args.compare else [config['version']]
         directories = [args.output / v for v in versions] if args.compare else [args.output]
         targets = [directory / file for directory in directories
                    for file in ('summary.json', 'trades.csv', 'equity.csv', 'minute_equity.csv', 'decisions.csv')]

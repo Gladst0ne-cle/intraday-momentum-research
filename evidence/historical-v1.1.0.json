@@ -1,0 +1,214 @@
+{
+  "release": "v1.1.0",
+  "classification": "retrospective simulation, not live performance or independent validation",
+  "frozen_result_sha256": "97f1f324a81fa0dac19a76fd3bb78cb450af9342f7891c6dbe8c0b9c59d23a4c",
+  "execution": {
+    "entry_exit_delay_seconds": 60,
+    "fee_bps_per_side": 5,
+    "execution_proxy_bps_round_trip": 5,
+    "carry": "settlement-minute opening-price proxy; verified archive coverage in local research",
+    "reference_exposure_cap": 4,
+    "volatility_target": 0.04,
+    "external_flows": false
+  },
+  "groups": {
+    "entire157": {
+      "start": "2026-03-18",
+      "end": "2026-10-29",
+      "versions": {
+        "v1.0.0": {
+          "return_pct": 47.70047015623082,
+          "max_day_closed_drawdown_pct": 13.574679670245626,
+          "max_minute_sampled_closeout_drawdown_pct": 16.15669174227762,
+          "win_day_pct": 40.12738853503185,
+          "signal_days": 157,
+          "executed_legs": 157,
+          "average_gross_exposure": 1.3213407367353778,
+          "max_gross_exposure": 3.6341832809043715,
+          "notional_weighted_holding_minutes": 225.57966915210162,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 41.66695644134932,
+            "5": 33.415390155494215,
+            "20": -2.528025353748853
+          },
+          "remove_own_top3_return_pct": 16.63617473795216
+        },
+        "v1.1.0": {
+          "return_pct": 67.49391916508294,
+          "max_day_closed_drawdown_pct": 15.55255686972088,
+          "max_minute_sampled_closeout_drawdown_pct": 17.16784121749556,
+          "win_day_pct": 40.12738853503185,
+          "signal_days": 157,
+          "executed_legs": 157,
+          "average_gross_exposure": 1.3187036103808576,
+          "max_gross_exposure": 3.6395218011166617,
+          "notional_weighted_holding_minutes": 227.67335172034623,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 60.62856394656926,
+            "5": 50.97651593488719,
+            "20": 10.856463656539184
+          },
+          "remove_own_top3_return_pct": 32.57585275592996
+        }
+      }
+    },
+    "earlier104": {
+      "start": "2026-03-18",
+      "end": "2026-08-14",
+      "versions": {
+        "v1.0.0": {
+          "return_pct": 17.447889241189586,
+          "max_day_closed_drawdown_pct": 11.912892854506897,
+          "max_minute_sampled_closeout_drawdown_pct": 14.642257250271207,
+          "win_day_pct": 37.5,
+          "signal_days": 104,
+          "executed_legs": 104,
+          "average_gross_exposure": 1.2356003772507325,
+          "max_gross_exposure": 3.319295106310422,
+          "notional_weighted_holding_minutes": 214.38802743167176,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 14.301151718714511,
+            "5": 10.192750867701129,
+            "20": -9.313492285485292
+          },
+          "remove_own_top3_return_pct": -6.598434630217187
+        },
+        "v1.1.0": {
+          "return_pct": 24.880220053427916,
+          "max_day_closed_drawdown_pct": 15.55255686972088,
+          "max_minute_sampled_closeout_drawdown_pct": 17.16784121749556,
+          "win_day_pct": 36.53846153846154,
+          "signal_days": 104,
+          "executed_legs": 104,
+          "average_gross_exposure": 1.2328613214794146,
+          "max_gross_exposure": 3.3192977172695635,
+          "notional_weighted_holding_minutes": 213.7821436971299,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 21.61041209424337,
+            "5": 17.029854709406898,
+            "20": -3.3946160660410896
+          },
+          "remove_own_top3_return_pct": -0.48722425545516534
+        }
+      }
+    },
+    "later53": {
+      "start": "2026-08-17",
+      "end": "2026-10-29",
+      "versions": {
+        "v1.0.0": {
+          "return_pct": 25.86175837481246,
+          "max_day_closed_drawdown_pct": 13.530630261975086,
+          "max_minute_sampled_closeout_drawdown_pct": 16.097587548114156,
+          "win_day_pct": 45.283018867924525,
+          "signal_days": 53,
+          "executed_legs": 53,
+          "average_gross_exposure": 1.488213013864978,
+          "max_gross_exposure": 3.638513178721546,
+          "notional_weighted_holding_minutes": 240.58669032919755,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 23.75852041860689,
+            "5": 20.8820366220446,
+            "20": 7.458881545941876
+          },
+          "remove_own_top3_return_pct": 4.641471539195918
+        },
+        "v1.1.0": {
+          "return_pct": 34.147534158924664,
+          "max_day_closed_drawdown_pct": 13.572467338023264,
+          "max_minute_sampled_closeout_drawdown_pct": 16.15830813863919,
+          "win_day_pct": 47.16981132075472,
+          "signal_days": 53,
+          "executed_legs": 53,
+          "average_gross_exposure": 1.4855731255576514,
+          "max_gross_exposure": 3.6397088953854104,
+          "notional_weighted_holding_minutes": 245.1268629432997,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 32.087909832259044,
+            "5": 28.980000434433695,
+            "20": 14.72754028270149
+          },
+          "remove_own_top3_return_pct": 11.5275845486293
+        }
+      }
+    },
+    "common97": {
+      "start": "2026-06-12",
+      "end": "2026-10-29",
+      "versions": {
+        "v1.0.0": {
+          "return_pct": 36.45741869134309,
+          "max_day_closed_drawdown_pct": 13.546804645696643,
+          "max_minute_sampled_closeout_drawdown_pct": 16.13692446227818,
+          "win_day_pct": 43.29896907216495,
+          "signal_days": 97,
+          "executed_legs": 97,
+          "average_gross_exposure": 1.3291891206948316,
+          "max_gross_exposure": 3.6374418404908218,
+          "notional_weighted_holding_minutes": 235.63918147527355,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 32.97608904870562,
+            "5": 27.883745760834078,
+            "20": 5.532647135168145
+          },
+          "remove_own_top3_return_pct": 10.910435864205613
+        },
+        "v1.1.0": {
+          "return_pct": 54.15797639138196,
+          "max_day_closed_drawdown_pct": 13.553105331390825,
+          "max_minute_sampled_closeout_drawdown_pct": 16.121735974185658,
+          "win_day_pct": 45.36082474226804,
+          "signal_days": 97,
+          "executed_legs": 97,
+          "average_gross_exposure": 1.324319532489932,
+          "max_gross_exposure": 3.6378188623865015,
+          "notional_weighted_holding_minutes": 239.16062682857284,
+          "cash_days": 0,
+          "extra_round_trip_proxy_bps": {
+            "2": 50.16086504764603,
+            "5": 44.669180897575636,
+            "20": 19.518298002273184
+          },
+          "remove_own_top3_return_pct": 25.221702005639933
+        }
+      }
+    }
+  },
+  "local_implementation_check": {
+    "phase": "frozen_signal_selection_and_minute_cash_ledger",
+    "caveat": "Signal timing and exits rebuilt from complete bars; source data accuracy is not independently established.",
+    "checks": {
+      "v1.0.0": {
+        "matched_signal_days": 157,
+        "return_percent": 47.70047015623076,
+        "closed_drawdown_percent": 13.574679670245636,
+        "minute_drawdown_percent": 16.15669174227764,
+        "max_equity_abs_error": 3.410605131648481e-13,
+        "independently_rebuilt_signal_and_exit_days": 157
+      },
+      "v2.0.0": {
+        "matched_signal_days": 157,
+        "return_percent": 67.49391916508316,
+        "closed_drawdown_percent": 15.552556869720801,
+        "minute_drawdown_percent": 17.167841217495493,
+        "max_equity_abs_error": 8.526512829121202e-13,
+        "independently_rebuilt_signal_and_exit_days": 157
+      }
+    }
+  },
+  "limitations": [
+    "No original market inputs or individual historical trade records are distributed.",
+    "A clone cannot independently reproduce this historical curve without the original inputs.",
+    "Multiple policies and the early/late periods were already examined; they are not fresh holdouts.",
+    "Uncertainty includes no advantage; no statistically established best policy is claimed.",
+    "Minute opens may miss intraminute extremes and differ from marks; matching, partial fills and liquidation are not simulated.",
+    "The legacy 53-trade +40.54% summary has a different execution protocol and is not an aligned control."
+  ]
+}

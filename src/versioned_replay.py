@@ -12,8 +12,8 @@ from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR
 from intraday_momentum import decide
 
 MINUTE = 60_000
-VERSIONS = {'v1.0.0', 'v2.0.0'}
-DEFAULTS = dict(version='v2.0.0', initial_equity=10000.0,
+VERSIONS = {'v1.0.0', 'v1.1.0', 'v2.0.0'}  # v2 is a retained legacy alias
+DEFAULTS = dict(version='v1.1.0', initial_equity=10000.0,
                 fee_bps_per_side=5.0, execution_proxy_bps_round_trip=5.0,
                 delay_minutes=1, leverage_step=0.01)
 
