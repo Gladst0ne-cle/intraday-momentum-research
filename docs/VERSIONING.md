@@ -2,7 +2,7 @@
 
 - **v1.0.0**: initial public strategy and offline tools.
 - **v1.1.0**: sigma-floor candidate ranking, reference budgets, minute cash ledger, CSV replay and bilingual manuals.
-- **v1.2.0**: Ridge early-exit review, chronological training, replay and robustness research (added in the following release).
+- **v1.2.0**: Ridge early-exit review, chronological training, replay and robustness research.
 
 The additions retain the original entry point and controls. They are minor feature releases within the 1.x line, rather than a claim of a breaking second-generation interface. Patch versions will cover fixes that preserve the registered decision rules. More code or higher historical return alone does not justify a major version.
 

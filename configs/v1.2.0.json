@@ -1,0 +1,19 @@
+{
+  "version": "v1.2.0",
+  "training": {
+    "warmup_signal_days": 60,
+    "refit_every_signal_days": 20,
+    "embargo_signal_days": 1,
+    "alpha": 100.0,
+    "threshold": -0.0002,
+    "confirmations": 2
+  },
+  "accounting": {
+    "version": "v1.1.0",
+    "initial_equity": 300.0,
+    "fee_bps_per_side": 5.0,
+    "execution_proxy_bps_round_trip": 5.0,
+    "delay_minutes": 1,
+    "leverage_step": 0.01
+  }
+}

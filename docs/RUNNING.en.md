@@ -1,3 +1,5 @@
+> v1.2.0 Ridge: [中文](RIDGE.zh-CN.md) / [English](RIDGE.en.md). This page describes the preserved v1.1.0 minute replay.
+
 # v2 running guide
 
 ## Setup and the complete example

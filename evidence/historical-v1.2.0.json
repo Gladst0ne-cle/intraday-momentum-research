@@ -1,0 +1,94 @@
+{
+  "release": "v1.2.0",
+  "period": {
+    "start": "2026-03-18",
+    "end": "2026-10-29",
+    "signal_days": 157
+  },
+  "classification": "Repeatedly studied historical simulation; not independent validation or live performance.",
+  "execution": {
+    "initial_equity": 300,
+    "fee_bps_per_side": 5,
+    "execution_proxy_bps_round_trip": 5,
+    "decision_delay_seconds": 60,
+    "carry": "settlement-minute open proxy"
+  },
+  "strategies": {
+    "v1.1.0_original30": {
+      "initial": 300.0,
+      "equity": 502.4817574952488,
+      "return_pct": 67.49391916508294,
+      "max_day_closed_drawdown_pct": 15.55255686972088,
+      "max_minute_sampled_closeout_drawdown_pct": 17.16784121749556,
+      "signal_days": 157,
+      "win_day_pct": 40.12738853503185,
+      "average_gross_exposure": 1.3187036103808576
+    },
+    "fixed2_control": {
+      "initial": 300.0,
+      "equity": 514.8448984958537,
+      "return_pct": 71.61496616528457,
+      "max_day_closed_drawdown_pct": 13.899343031144994,
+      "max_minute_sampled_closeout_drawdown_pct": 16.46978538202403,
+      "signal_days": 157,
+      "win_day_pct": 38.853503184713375,
+      "average_gross_exposure": 1.319245193253768
+    },
+    "v1.2.0_ridge": {
+      "initial": 300.0,
+      "equity": 536.3297610963592,
+      "return_pct": 78.77658703211974,
+      "max_day_closed_drawdown_pct": 13.561872682428177,
+      "max_minute_sampled_closeout_drawdown_pct": 16.13545276304693,
+      "signal_days": 157,
+      "win_day_pct": 39.49044585987261,
+      "average_gross_exposure": 1.3190420128420952
+    }
+  },
+  "warmup": {
+    "first_signal_days_fixed2": 60,
+    "ridge_predicted_days": 97,
+    "expanding_refit_every_signal_days": 20,
+    "outer_embargo_signal_days": 1
+  },
+  "posthoc_constant_mean_control_return_pct": 79.81326153336315,
+  "source_result_sha256": "37c8d349eb1559d16b6cfd0aefe06c3fbef0d48124ccc9ce1083bab2b0349563",
+  "local_code_parity": {
+    "candidate_paths": 833,
+    "feature_states": 24200,
+    "max_feature_error": 0.0,
+    "max_prediction_error": 1.474514954580286e-17,
+    "causal_prefix_checks": 833,
+    "chronological_folds": 5,
+    "checks": {
+      "original30": {
+        "trade_days": 157,
+        "max_equity_error": 8.526512829121202e-13,
+        "return_pct": 67.49391916508316,
+        "minute_dd": 17.167841217495493
+      },
+      "fixed2": {
+        "trade_days": 157,
+        "max_equity_error": 2.2737367544323206e-13,
+        "return_pct": 71.61496616528457,
+        "minute_dd": 16.46978538202405
+      },
+      "ridge": {
+        "trade_days": 157,
+        "max_equity_error": 4.547473508864641e-13,
+        "return_pct": 78.77658703211985,
+        "minute_dd": 16.135452763046942
+      }
+    },
+    "source_result_sha256": "37c8d349eb1559d16b6cfd0aefe06c3fbef0d48124ccc9ce1083bab2b0349563",
+    "note": "Private source-data parity; underlying inputs are deliberately not distributed."
+  },
+  "limitations": [
+    "No original market inputs or individual historical logs are distributed.",
+    "A clone can run fictional or caller-supplied inputs, but cannot reproduce this chart without the originals.",
+    "Full 157 result includes fixed2 warmup, not157 days of a trained model.",
+    "A single latest frozen model does not reproduce the historical expanding-fit mixture.",
+    "No historical book matching, mark-price margin or liquidation simulation.",
+    "A constant-past-mean posthoc control outperformed Ridge; learning advantage is not established."
+  ]
+}

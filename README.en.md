@@ -1,131 +1,87 @@
-# 30-minute intraday momentum research
+# Intraday Momentum Research · Ridge Exit Review
 
 [中文](README.md) | [English](README.en.md)
 
-**Current release: v1.1.0 · sigma floor. Initial release: v1.0.0.**
+**Current release: v1.2.0. Version line: v1.0.0 initial → v1.1.0 sigma-floor and minute replay → v1.2.0 Ridge exit review.**
 
-Runnable offline strategies, aligned version comparisons and research tools.
-The update retains noise-band breakouts, the first signal slot and original
-exits, while flooring the denominator used to rank simultaneous candidates.
-No account connection or order submission is included.
+Runnable offline strategies, chronological training, three-policy replay, cost stresses, paired block resampling and tests. Ridge reviews early-exit candidates while retaining the30-minute breakout, first signal slot, sigma-floor selection and reference risk budgets. No accounts or orders.
 
-## Updated strategy overview · v1.1.0
+## Full157-day strategy overview · v1.2.0
 
-![v1.1.0: historical equity, aligned original-rule control, drawdown and strategy steps](figures/strategy-overview-v1.1.0.png)
+![Historical equity, aligned version controls, closed drawdown and strategy mechanism](figures/strategy-overview-v1.2.0.png)
 
-The initial figure's layout, palette and proportions are retained. Equity and
-closed-trade drawdown appear on the left; the four strategy steps are on the
-right. Green is v2; grey is the original signal rule under the **same execution
-and cost protocol**. Each green dot is equity after one simulated trade.
+The primary period is **18 March–29 October2026, all157 signal days, each starting from300 units and compounding independently**, with aligned entries, sizing and costs:
 
-Aligned historical replay, 157 signal days from 2026-03-18 to 2026-10-29:
+- v1.1.0 original 30-minute exit: **+67.49%**, final **502.48**; closed drawdown **15.55%**, minute-sampled close-out drawdown **17.17%**.
+- Fixed two-confirmation control: **+71.61%**, final **514.84**; closed drawdown **13.90%**, minute drawdown **16.47%**.
+- v1.2.0 Ridge workflow: **+78.78%**, final **536.33**; closed drawdown **13.56%**, minute drawdown **16.14%**; **62/157** winning trades.
 
-- Original-rule control: **+47.70%** compounded return, **13.57%** closed
-  drawdown, **16.16%** minute-sampled close-out drawdown.
-- Sigma-floor update: **+67.49%** compounded return, **15.55%** closed
-  drawdown, **17.17%** minute-sampled close-out drawdown; **63/157** profitable
-  trades and approximately **1.32x** mean notional exposure.
+**Repeatedly studied historical simulation, not live performance or new independent validation.** The first60 signal days use fixed-two fallback; only97 have trained Ridge predictions. Do not attribute the full return to learning. A posthoc constant-past-mean review reached+79.81%, above Ridge; incremental learning value is not established. Return is final/initial−1; position quantity already includes exposure.
 
-This repeatedly examined historical sample is neither live performance nor
-independent validation. Higher return also came with higher full-sample
-drawdown. Minute opens are execution/settlement proxies, without actual order
-book fills, intraminute extremes or liquidation. Original market data and
-individual historical trade records are not distributed, so cloning alone
-cannot independently reproduce this curve. See [aggregate evidence](evidence/historical-v1.1.0.json).
+Original market inputs and individual historical logs are omitted. A clone can run the fictional demo or your own inputs; it cannot independently reproduce this historical curve without those inputs. See [historical aggregates](evidence/historical-v1.2.0.json) and [robustness aggregates](evidence/robustness-v1.2.0.json).
 
-## Run both versions
+## Clone and run
 
-Python 3.10+. Install the timezone dependency if required by your system.
+Python3.10+. Core training, inference and accounting use the standard library; requirements only add timezone support.
 
 ```bash
 git clone https://github.com/Gladst0ne-cle/intraday-momentum-research.git
 cd intraday-momentum-research
 python -m pip install -r requirements.txt
-python scripts/run_replay.py --demo --compare
-```
-
-Demo prices are entirely fictional. They demonstrate the pipeline, **not the
-historical chart or profitability**. The two rules may choose identical trades
-on some inputs. Results go to `output/versioned/comparison.json` and one
-subdirectory per version, each containing `summary.json`, `trades.csv`,
-`equity.csv`, `minute_equity.csv` and `decisions.csv`. Repeated runs require
-another output directory or explicit `--overwrite`.
-
-```bash
-# Updated version only
-python scripts/run_replay.py --demo --config configs/v1.1.0.json --output output/v1.1
-# Add another 20 bp round-trip execution cost to the base proxy
-python scripts/run_replay.py --demo --compare --extra-cost-bps 20 --output output/stress20
-# Export fictional inputs and run the complete CSV path
-python scripts/run_replay.py --demo --compare --export-example output/example --output output/example-run
-python scripts/run_replay.py --bars output/example/bars30.csv --minutes output/example/minutes.csv --specs output/example/specs.csv --carry-zero --compare --output output/from-files
-# All tests
+python scripts/run_ridge.py --demo --config configs/v1.2.0.json --cost-grid --output output/ridge-demo
+python scripts/check_ridge.py --run output/ridge-demo --block 5 --replications 1000 --output output/ridge-check.json
 python -m unittest discover -s tests
 ```
 
-Base assumptions are 5 bp commission per side plus a separate 5 bp round-trip
-execution proxy, charged on each side's actual notional. Entry and exit wait
-one minute after their decisions. User inputs require either explicit zero
-carry or settlement events with verified declared coverage. Commission,
-execution proxies and carry are separate cash components.
+The demo creates100 **fictional weekday sessions**, including deliberate intraminute excursions to exercise confirmation and training. These are neither actual calendar sessions nor observed prices. Demo results can lose money and are not evidence of historical performance. Existing output directories are refused.
 
-## What changed
+Outputs include`summary.json`(all three full-period results, model boundaries and cost grid),`training.json`,`models/`, and per-policy`trades.csv`/`minute_equity.csv`.
 
-```text
-v1.0.0: select the largest raw breakout magnitude
-v1.1.0: maximize breach / max(own sigma, median current candidate sigma)
+## Your own inputs
+
+```bash
+python scripts/run_ridge.py --demo --export-example output/ridge-inputs --output output/ridge-export-run
+python scripts/run_ridge.py --bars path/to/bars30.csv --minutes path/to/minutes.csv --specs path/to/specs.csv --carry-zero --cost-grid --output output/my-ridge
 ```
 
-The median uses only the first eligible slot's candidates, not future outcomes.
-The replacement must satisfy the original winner's gross exposure and
-volatility budgets. Reference exposure remains capped at 4x; entry costs are
-reserved and quantity is rounded down. Bands, half-hour band/VWAP exits and
-one trade per day remain. The new replay adds minute proxies, cash-component
-accounting, settlement-time carry and minute risk sampling.
+Minute CSV requires`symbol,timestamp_ms,open,high,low,close,volume`. At least15 complete prior sessions are required, with minute paths for the previous14 sessions of each first-slot candidate. Missing/duplicate/invalid inputs abort rather than being replaced by zero. Verify actual costs, calendars, timestamps and instrument units yourself. Supply carry events with verified coverage instead of`--carry-zero`when appropriate. Frozen models cannot predict dates preceding their training cutoff. See the[English manual](docs/RIDGE.en.md) or[中文手册](docs/RIDGE.zh-CN.md).
 
-See [mathematics and version differences](docs/STRATEGY_VERSIONS.md),
-[the complete running guide](docs/RUNNING.en.md) and [changelog](CHANGELOG.md).
-The new engine's `configs/v1.0.0.json` is the **original signal under new
-accounting**, not the legacy chart's execution protocol.
+## Decision mechanism
 
-## Initial release retained · v1.0.0
+1. Retain30-minute bands, first-slot sigma-floor ranking and original winner's gross/volatility budgets; reference exposure stays capped at4x.
+2. Two completed5-minute closes beyond the last known completed30-minute exit line flag a review. The5-minute window must lie wholly after entry.
+3. Ridge uses21 causally available features to estimate the net increment from holding until the original exit rather than exiting now. Exit early only below−2bp. Original exits always take priority. Fills use minute opens60seconds after decisions.
+4. First60 signal days use fixed-two fallback. Refit every20 signal days using earlier complete days, with one whole signal-day embargo. All same-day candidates share the split; weights balance day/candidate/event. Future outcomes are targets, never features.
 
-![Initial v1.0.0 historical figure, legacy cost protocol](figures/historical-strategy-overview.png)
+Baseline features/labels retain the frozen15bp round-trip cost; stresses keep predictions fixed. Equity compounds between trades. No re-entry, neural network or new exposure multiplier is added. See[design and usage](docs/RIDGE.en.md) and[version specifications](docs/STRATEGY_VERSIONS.md).
 
-The legacy chart covers 53 trades from 2026-08-17 to 2026-10-29: +40.54%
-compounded return and 15.20% closed drawdown. It uses the next half-hour open,
-10 bp round-trip commission, no added slippage and incomplete carry coverage.
-It is not the aligned 157-day control above; do not directly subtract returns.
+## Robustness and uncertainty
 
-Original code and research tools remain usable with
-`python src/simulate.py --demo`. See the [initial guide](docs/LEGACY.en.md)
-and [legacy summary](historical_summary.json). Git tag `v1.0.0` preserves the
-pre-update public repository; `v1.1.0` marks this release.
+![Full-period additional execution cost sensitivity](figures/ridge-cost-sensitivity-v1.2.0.png)
 
-## Repository organization
+- Extra20bp round-trip cost reduces Ridge to **+18.33%**; extra40bp yields **−22.00%**, with minute drawdown about **37.13%**.
+- Paired95% block-resampling intervals relative to both controls include zero incremental advantage.
+- A39-repeat,5-day residual sign-randomization diagnostic, retaining past mean labels, has return tail ratio **0.90**. This is not future profit probability or a complete multiple-testing correction.
+- Local source-input parity:833 candidate paths,24,200 feature states, zero feature error, maximum prediction difference about1.5e−17; all three 157-day cash paths match frozen research. **51 public tests** pass.
 
-- `scripts/`: recommended entry point; `configs/`: registered versions.
-- `src/versioned_replay.py`: selection, causal exit planning, sizing and cash ledger.
-- `src/replay_cli.py`: input validation, hashes, comparison and export.
-- `src/intraday_momentum.py`, `backtest.py`, `simulate.py`: preserved original replay.
-- `research/`: separate data-quality, filtering, risk, prediction and rolling
-  evaluation tools; see [research guide](research/README.md).
-- `tests/`: signal, budget, carry, missing-path and end-to-end regressions;
-  `docs/`: bilingual guides and version definitions.
-- `evidence/`: historical aggregates; `figures/`: finished images;
-  `output/`: local results ignored by Git.
+Some proxy order sizes exceed the exit minute's total volume; some endpoint minutes have no volume. Volume is not depth. Actual matching, marks, margin tiers and liquidation remain unverified. These tests cannot guarantee live profitability; publishing code does not replace any trading strategy.
 
-Only generic research code, aggregates and finished figures are published.
-No credentials, accounts, trading interfaces, server configuration, raw market
-inputs or individual historical records are included. Chart-rendering scripts
-are intentionally omitted.
+## Code organization and versions
 
-## Research background
+- `src/ridge_features.py`:21 causal features, volume-aware aggregation, original-exit priority.
+- `src/ridge_model.py`:Ridge solver, unpenalized intercept, temporal boundaries and model checks.
+- `src/ridge_replay.py`,`ridge_cli.py`:candidate preparation, rolling training, matched accounting and CSV workflow.
+- `src/ridge_diagnostics.py`:paired block resampling and concentration diagnostics.
+- `scripts/`:entry points;`configs/`:frozen settings;`models/`:latest historical model for dates after its cutoff.
+- `tests/`,`docs/`,`evidence/`,`figures/`:tests, bilingual manuals, aggregates and finished images.
+- `research/`:previous data-quality, signal, sizing and prediction baselines;`output/`:ignored local outputs.
 
-Noise-band and intraday momentum ideas draw on *Beat the Market: An Effective
-Intraday Momentum Strategy for the S&P 500 ETF (SPY)*. This is an independent
-adaptation and extension, not a paper replication; the instruments and execution
-environment differ. The reference does not validate this release's returns.
-See the [initial guide](docs/LEGACY.en.md) for research background.
+v1.1.0 comparison remains`python scripts/run_replay.py --demo --compare`; the v1.0.0 entry remains`python src/simulate.py --demo`. The legacy53-trade+40.54% summary uses different dates and execution assumptions; do not subtract it from the157-day results. See[legacy notes](docs/LEGACY.en.md).
 
-Version numbering now follows the 1.x feature line; the previous v2.0.0 tag and Release are removed while commit history and the compatibility config remain. See [version numbering](docs/VERSIONING.md).
+Versions describe compatible features, not returns. The obsolete v2.0.0 tag and Release are deleted, while source commits and the compatibility config remain. See[version numbering](docs/VERSIONING.md) and[changelog](CHANGELOG.md).
+
+Only generic offline code, coefficients, aggregates and finished images are published. No venue-specific interfaces, accounts, credentials, servers, raw market inputs, individual historical records or figure-generation scripts.
+
+## References
+
+The noise-band idea is inspired by*Beat the Market: An Effective Intraday Momentum Strategy for the S&P500 ETF(SPY)*. This is an independent extension, not a replication or evidence that the paper validates Ridge. [PBO](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf) and[DSR](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) inform the limits on repeated selection and non-normal returns.

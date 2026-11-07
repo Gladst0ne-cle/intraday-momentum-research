@@ -97,3 +97,10 @@ no advantage; no statistically established best strategy is claimed.
 Historical raw inputs are deliberately omitted. The exact historical chart
 cannot be independently reproduced from a clone alone. Functional simulations
 and tests are fully runnable with fictional or caller-supplied inputs.
+
+
+## v1.2.0 — Ridge early-exit review / Ridge退出审核
+
+Retains v1.1.0 entries and reference budgets. Two5-minute closes beyond the last known30-minute exit line flag a candidate. A causal21-feature Ridge estimate of holding-to-original-exit net value must be below−2bp to exit early; original exits always have priority. Standard60s fill proxy and the shared cash ledger remain. Registered historical workflow uses60-day fixed-two fallback,20-day expanding refits and a1-signal-day embargo. No re-entry or neural network.
+
+Run`python scripts/run_ridge.py --demo --config configs/v1.2.0.json --output output/ridge`rather than passing this different schema to`run_replay.py`. See[中文手册](RIDGE.zh-CN.md),[English guide](RIDGE.en.md),[full157 evidence](../evidence/historical-v1.2.0.json) and[robustness](../evidence/robustness-v1.2.0.json). Software versioning does not certify profitable execution.

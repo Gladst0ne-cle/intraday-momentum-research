@@ -56,3 +56,13 @@ python research/models/prediction.py --trades output/research-demo/trades.csv --
 固定切分比较零预测、训练均值和只使用**入场前杠杆**的简单线性回归，同时报告预测为正才交易与全部交易的结果。滚动模式按时间扩展训练集，排除决策前尚未结束的标签，只用先前已完成的滚动预测残差生成经验区间；最初没有足够残差时不输出区间。样本少、反复研究的切分、模型选择及非平稳市场都可能导致严重过拟合，经验覆盖率不构成未来覆盖保证。此处是轻量基准，不是深度学习，也不做自动模型筛选。
 
 The fixed split compares zero, training mean and a simple linear model using **pre-entry leverage**. It reports trade-all and positive-prediction results. Rolling mode trains on completed prior labels only and uses earlier completed rolling prediction residuals for empirical intervals. No interval is emitted until residuals exist. Small samples, repeated inspection, model selection and market shifts can overfit; empirical coverage is not guaranteed. These are lightweight baselines, not deep learning or automatic model selection.
+
+
+## 6. Ridge exits / Ridge退出审核
+
+```bash
+python scripts/run_ridge.py --demo --cost-grid --output output/ridge-research
+python scripts/check_ridge.py --run output/ridge-research --replications 1000 --output output/ridge-diagnostics.json
+```
+
+This newer workflow writes structured results to a new output directory rather than stdout only. Training is chronological and excludes unfinished labels. Demo inputs are fictional; the historical full157 aggregates are not bundled raw data. See[中文手册](../docs/RIDGE.zh-CN.md) /[English guide](../docs/RIDGE.en.md).

@@ -1,0 +1,177 @@
+{
+  "release": "v1.2.0",
+  "period": {
+    "start": "2026-03-18",
+    "end": "2026-10-29",
+    "signal_days": 157
+  },
+  "bootstrap": [
+    {
+      "block": 5,
+      "replications": 10000,
+      "return_interval95_pct": [
+        0.2664821458826367,
+        265.2392793117043
+      ],
+      "resampled_loss_frequency": 0.0241,
+      "paired": {
+        "original30": {
+          "log_advantage": 0.0651898620407596,
+          "relative_wealth_advantage_pct": 6.736165660985248,
+          "relative_wealth_interval95_pct": [
+            -3.639644058049886,
+            16.16383668324434
+          ],
+          "resampled_nonpositive_frequency": 0.1048
+        },
+        "fixed2": {
+          "log_advantage": 0.04088351048862101,
+          "relative_wealth_advantage_pct": 4.1730747771366525,
+          "relative_wealth_interval95_pct": [
+            -3.6826598417105774,
+            13.374347364957215
+          ],
+          "resampled_nonpositive_frequency": 0.1809
+        }
+      }
+    },
+    {
+      "block": 10,
+      "replications": 10000,
+      "return_interval95_pct": [
+        9.399222140411261,
+        235.7160087727329
+      ],
+      "resampled_loss_frequency": 0.0119,
+      "paired": {
+        "original30": {
+          "log_advantage": 0.0651898620407596,
+          "relative_wealth_advantage_pct": 6.736165660985248,
+          "relative_wealth_interval95_pct": [
+            -3.686078903318815,
+            15.88022476452647
+          ],
+          "resampled_nonpositive_frequency": 0.1209
+        },
+        "fixed2": {
+          "log_advantage": 0.04088351048862101,
+          "relative_wealth_advantage_pct": 4.1730747771366525,
+          "relative_wealth_interval95_pct": [
+            -3.8816949042058013,
+            12.411256711029957
+          ],
+          "resampled_nonpositive_frequency": 0.1867
+        }
+      }
+    }
+  ],
+  "costs": {
+    "0": {
+      "return_pct": 78.77658703211974,
+      "max_minute_sampled_closeout_drawdown_pct": 16.13545276304693
+    },
+    "2": {
+      "return_pct": 71.27174123431628,
+      "max_minute_sampled_closeout_drawdown_pct": 16.390736494840663
+    },
+    "5": {
+      "return_pct": 61.066838662627006,
+      "max_minute_sampled_closeout_drawdown_pct": 16.69858684123152
+    },
+    "10": {
+      "return_pct": 45.29267047311618,
+      "max_minute_sampled_closeout_drawdown_pct": 17.238639919483933
+    },
+    "20": {
+      "return_pct": 18.32474986911663,
+      "max_minute_sampled_closeout_drawdown_pct": 19.02906941521797
+    },
+    "40": {
+      "return_pct": -21.998134161933237,
+      "max_minute_sampled_closeout_drawdown_pct": 37.12925251773594
+    },
+    "80": {
+      "return_pct": -65.75030015724064,
+      "max_minute_sampled_closeout_drawdown_pct": 68.94014696733034
+    }
+  },
+  "exit_delay_seconds": {
+    "120": {
+      "initial": 300,
+      "equity": 537.1968641094948,
+      "return_pct": 79.06562136983159,
+      "max_day_closed_drawdown_pct": 13.7705736960268,
+      "max_minute_sampled_closeout_drawdown_pct": 16.3934347470962,
+      "worst_day_pct": -4.71376866526483,
+      "win_day_pct": 40.76433121019108,
+      "signal_days": 157
+    },
+    "180": {
+      "initial": 300,
+      "equity": 546.9855964906106,
+      "return_pct": 82.32853216353688,
+      "max_day_closed_drawdown_pct": 14.124740003195313,
+      "max_minute_sampled_closeout_drawdown_pct": 16.604072700166927,
+      "worst_day_pct": -4.624646734097645,
+      "win_day_pct": 42.038216560509554,
+      "signal_days": 157
+    }
+  },
+  "joint_extra20bp_exit180s": {
+    "initial": 300,
+    "equity": 361.6217618540982,
+    "return_pct": 20.540587284699406,
+    "max_day_closed_drawdown_pct": 16.363890660616185,
+    "max_minute_sampled_closeout_drawdown_pct": 18.789529875283616,
+    "worst_day_pct": -4.895033852485055,
+    "win_day_pct": 38.853503184713375,
+    "signal_days": 157
+  },
+  "parameter_sensitivity": {
+    "clean_recomputed": 78.77658703211974,
+    "noise01": 78.77658703211974,
+    "noise05": 79.04831440418751,
+    "missing10": 77.73736774054396,
+    "stale5min": 80.60345122918753,
+    "gate_0bp_confirm1": 77.30777507752885,
+    "gate_0bp_confirm2": 77.93206447448813,
+    "gate_0bp_confirm3": 78.92738773074157,
+    "gate_-1bp_confirm1": 76.98197462711735,
+    "gate_-1bp_confirm2": 77.73736774054396,
+    "gate_-1bp_confirm3": 78.64197526280134,
+    "gate_-2bp_confirm1": 77.92522333379588,
+    "gate_-2bp_confirm2": 78.77658703211974,
+    "gate_-2bp_confirm3": 79.60862905439872,
+    "gate_-5bp_confirm1": 77.9534641510035,
+    "gate_-5bp_confirm2": 78.79054131545308,
+    "gate_-5bp_confirm3": 79.60862905439872,
+    "prediction_missing_original30": 67.49391916508294,
+    "prediction_missing_fixed2": 71.61496616528457
+  },
+  "set_own_top_profit_days_to_zero": {
+    "1": 63.97953433780275,
+    "3": 41.25757377723026,
+    "5": 23.187704173929202
+  },
+  "replace_top3_increment_with_fixed2_return_pct": 66.99020452766646,
+  "residual_randomization": {
+    "repetitions": 39,
+    "return_tail_ratio": 0.9,
+    "mse_tail_ratio": 0.775,
+    "description": "Past mean retained;5-day blocks of label residuals sign-randomized within past fit/validation. Conditional diagnostic, not an exchangeable-label test or profit probability."
+  },
+  "finite_family_cscv": {
+    "candidate_count": 10,
+    "combinations": 70,
+    "full157_rank_frequency": 0.5714285714285714,
+    "scope": "Frozen family, not whole project or individual-model overfit probability."
+  },
+  "execution_quality": {
+    "zero_volume_entry_minutes": 1,
+    "zero_volume_exit_minutes": 4,
+    "order_above_exit_minute_total_volume": 34,
+    "max_order_to_exit_minute_volume_ratio": 905.0,
+    "note": "Observed minute volume is not order-book depth; neither a fill guarantee nor a no-fill proof."
+  },
+  "conclusion": "Historical positive return preserved; stable incremental learning value and executable profitability not established."
+}

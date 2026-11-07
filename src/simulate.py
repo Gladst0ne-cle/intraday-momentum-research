@@ -86,15 +86,17 @@ def build_sessions(rows):
     return result
 
 
-def synthetic_sessions():
+def synthetic_sessions(count=26):
     """只生成虚构示例，不使用真实行情。"""
+    if type(count) is not int or not 16 <= count <= 2000:
+        raise ValueError('synthetic session count must be 16 through 2000')
     zone = new_york()
     rng = random.Random(319)
     day = date(2026, 1, 5)
     prices = {'AAA': 100.0, 'BBB': 80.0, 'CCC': 120.0}
     rows = []
     generated = 0
-    while generated < 26:
+    while generated < count:
         if day.weekday() >= 5:
             day += timedelta(days=1)
             continue

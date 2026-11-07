@@ -1,5 +1,17 @@
 # Changelog / 版本记录
 
+## v1.2.0 — 2026-11-07 · Ridge exit research / Ridge退出审核
+
+- Add 21 causal features, day-balanced Ridge with standard-library solver, one-day embargo and expanding 20-signal-day refits.
+- Preserve first-slot sigma-floor entries/reference budgets; compare original 30-minute, fixed-two and Ridge exits using one cash engine.
+- Add runnable100-session fictional demo, minute-volume CSV workflow, frozen inference model, model export/checksums, cost grid and paired block bootstrap.
+- Publish full157-day aggregate evidence and matching strategy/cost figures; no raw inputs or individual historical logs.
+- 51 public tests pass. Local private-input parity:833 paths,24,200 exact feature states, prediction difference below1.5e−17 and matched157-day cash paths for all three policies.
+- Historical Ridge workflow:+78.78%,16.14% minute-sampled drawdown; includes60-day fallback. Incremental learning value is not established. Extra40bp causes losses.
+- Canonical versions are v1.0.0,v1.1.0,v1.2.0. Retire the obsolete v2.0.0 tag/Release at maintainer request without rewriting source commits.
+- Excludes production collectors, venue-specific interfaces, credentials, account/server data and figure generators. Publication does not replace a running model.
+
+
 ## v1.1.0 — 2026-11-07 (canonical numbering; originally published as v2.0.0 on November 6)
 
 - 保留 30 分钟噪声带突破、首个信号时点、每日最多一笔及原 band/VWAP 退出。
