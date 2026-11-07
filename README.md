@@ -81,4 +81,4 @@ v1.1.0：选取 breach / max(自身 sigma, 当前候选 sigma 中位数) 最大�
 
 噪声带与日内动量思路参考 *Beat the Market: An Effective Intraday Momentum Strategy for the S&P 500 ETF (SPY)*；本仓库是独立改写与扩展，不是论文复现，研究标的与执行环境也不同。参考文献不是对本版本收益的背书。详情与原始研究工具见[初始说明](docs/LEGACY.zh-CN.md)。
 
-版本编号已整理为1.x功能线，旧v2.0.0保留为历史标签与兼容入口。详见[版本编号说明](docs/VERSIONING.md)。
+版本编号已整理为1.x功能线，旧v2.0.0标签和Release删除，代码历史与兼容配置保留。详见[版本编号说明](docs/VERSIONING.md)。

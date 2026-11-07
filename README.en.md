@@ -128,4 +128,4 @@ adaptation and extension, not a paper replication; the instruments and execution
 environment differ. The reference does not validate this release's returns.
 See the [initial guide](docs/LEGACY.en.md) for research background.
 
-Version numbering now follows the 1.x feature line; the previous v2.0.0 tag remains a historical alias. See [version numbering](docs/VERSIONING.md).
+Version numbering now follows the 1.x feature line; the previous v2.0.0 tag and Release are removed while commit history and the compatibility config remain. See [version numbering](docs/VERSIONING.md).
